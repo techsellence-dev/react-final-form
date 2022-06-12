@@ -9,7 +9,7 @@ const minValue = min => value =>
   value >= min ? undefined : `Should be greater than ${min}`
 const composeValidators = (...validators) => value =>
   validators.reduce((error, validator) => error || validator(value), undefined)
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 
 
 
