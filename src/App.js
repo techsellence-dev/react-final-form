@@ -51,7 +51,7 @@ const App = () => (
         <form onSubmit={handleSubmit}>
 
           {/* field 1 */}
-          <Field name="Fusername" >
+          <Field name="Fusername" validate={required} >
             {({ input, meta }) => (
 
               <div>
@@ -63,7 +63,7 @@ const App = () => (
 
 
           {/* field 2 */}
-          <Field name="Lusername">
+          <Field name="Lusername" validate={required}>
             {({ input, meta }) => (
 
               <div>
