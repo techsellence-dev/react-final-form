@@ -52,10 +52,7 @@ function FormButton() {
 
     // };
 
-    // const emailvalid=()=>{
-    //     const regEx=/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g
-    //     if(regEx.test(Email))
-    // }
+    
 
     return (
         <div className='App'>
@@ -77,9 +74,6 @@ function FormButton() {
                     }if (!values.Email) {
                         errors.Email = 'Required'
                     }
-                    // if (values.Email != /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g); {
-                    //     errors.Email = 'Invalid Email'
-                    // }
                    if (!values.password) {
                         errors.password = 'Required'
                     } 
