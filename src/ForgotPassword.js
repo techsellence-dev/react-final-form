@@ -25,7 +25,7 @@ function FormButton() {
         if (regEx.test(Email)) {
             setMessage("Email is valid")
         } else if (!regEx.test(Email)) {
-            setMessage("Email is not valid")
+            setMessage("Email is not valid / ")
         } else {
             setMessage("")
         }
