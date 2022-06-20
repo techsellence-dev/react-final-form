@@ -82,7 +82,7 @@ function FormButton() {
 
 
                         <Button id='btn'
-                            disabled={submitting || pristine}
+                            disabled={submitting}
                             variant="contained"
                             onClick={sub}
                             type="submit"
