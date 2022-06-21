@@ -1,0 +1,47 @@
+body{
+    background:rgba(157, 248, 254, 0.9);
+}
+
+label {
+    font-weight: bold;
+    padding: 20px;
+    font-size: 20px;
+    letter-spacing: 3px;
+    font-family: 'Nuosu SIL', serif;
+
+}
+.h{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 50px;
+   
+}
+
+    
+
+
+.head {
+    text-align: center;
+    font-weight: 800;
+    color: rgba(4, 7, 88, 0.859);
+    text-decoration: underline;
+    line-height: 1em;
+    text-transform: capitalize;
+    letter-spacing: 5px;
+}
+
+.Content{
+    
+    background-color:bisque;
+    border: 2px solid whitesmoke;
+    border-radius: 40px;
+    text-align: center;
+    margin-top:  50PX;
+    margin-bottom:  50PX;
+    margin-left:  400PX;
+    margin-right:  400PX;
+    padding: 50px;
+}
+
+.Label{
+    text-align: left;
+}
