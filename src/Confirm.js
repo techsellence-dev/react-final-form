@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { render } from 'react-dom'
 import { Form, Field } from 'react-final-form'
 import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
@@ -51,11 +50,11 @@ function Confirm() {
                     if (!values.confirm) {
                         errors.confirm = 'Required'
                     }
-                    else if (values.confirm != values.password) {
+                    else if (values.confirm !== values.password) {
                         errors.confirm = 'Must match'
                     }
                     return errors
-                    return errors
+                    
                 }} >
 
                 {({ handleSubmit, form, submitting, pristine, values }) => (

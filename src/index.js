@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter as Router, Switch, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router,  Routes, Route, } from 'react-router-dom';
 import Signup from './Signup'
 import Signin from './Signin';
-import Phone from './components/Phone';
-import Password from './components/Password';
 import ForgotPassword from './ForgotPassword'
 import Confirm from './Confirm'
 
