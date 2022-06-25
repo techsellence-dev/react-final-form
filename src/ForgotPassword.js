@@ -6,7 +6,6 @@ import { Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import './Style.css';
 
-const required = value => (value ? undefined : 'Required')
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -24,10 +23,8 @@ function Forgot() {
         if (regEx.test(Email)) {
             setMessage("Email is valid")
         } else if (!regEx.test(Email)) {
-            setMessage("Email is not valid / ")
-        } else {
-            setMessage("")
-        }
+            setMessage("Email is not valid  ")
+        } 
     }
     const handleOnChange = (e) => {
         setEmail(e.target.value);
@@ -40,7 +37,6 @@ function Forgot() {
                 onSubmit={async (values) => {
                     await sleep(1000);
                     alert("Submitted Successfully!");
-                    window.alert(JSON.stringify(values, undefined, 2));
                 }}
             >
 
@@ -53,18 +49,17 @@ function Forgot() {
 
 
                         {/* field 3 */}
-                        <Field name="Email" validate={required}>
+                        <Field name="Email">
                             {({ input, meta }) => (
-
                                 <div>
-                                    <label><strong>Email: </strong></label>
+                                    <label className='Label'><strong>Email:</strong></label>
                                     <TextField
                                         {...input}
                                         type="email"
-                                        id="email"
-                                        label="Email Address"
-                                        name="email"
-                                        size='small'
+                                        variant="filled"
+                                        size="small"
+                                        id="outlined-required"
+                                        label='Email'
                                         autoComplete="email"
                                         value={Email}
                                         onChange={handleOnChange}
@@ -76,12 +71,8 @@ function Forgot() {
                                 </div>)}
                         </Field><br></br>
 
-
-
-
-
                         <Button id='btn'
-                            disabled={submitting }
+                            disabled={submitting}
                             variant="contained"
                             onClick={sub}
                             type="submit"
