@@ -141,7 +141,7 @@ function SignUp() {
 
                             <br></br>
                             <div>
-                                <Button color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
+                                <Button color='success' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
                                 <Button color='primary' variant='contained' type='reset' disabled={!formik.dirty}>Reset</Button>
                             </div>
 
