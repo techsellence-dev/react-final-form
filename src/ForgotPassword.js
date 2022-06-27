@@ -53,7 +53,7 @@ function NewForm() {
                                     name='email'
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.name2}
+                                    value={formik.values.email}
                                     helperText='Enter the email id registered to your account' />
                                 <ErrorMessage name='email' component={TextError} />
                             </div>
