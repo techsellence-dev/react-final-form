@@ -101,7 +101,7 @@ function NewForm() {
 
                             <br></br>
                             <div>
-                                <Button color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>
+                                <Button color='success' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>
                                     Submit
                                 </Button>
                             </div>
