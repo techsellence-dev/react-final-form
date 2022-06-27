@@ -1,0 +1,68 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: rgb(102, 253, 253)
+}
+
+label {
+  font-weight: bold;
+  font-size: larger;
+  font-family: 'Yesteryear', cursive;
+  padding: 5px;
+  display: inline-block;
+  text-align: left;
+  margin-bottom: 5px;
+  width: 150px;
+}
+.Label {
+  font-weight: bold;
+  font-size: larger;
+  font-family: 'Yesteryear', cursive;
+  padding: 5px;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 5px;
+  width: 150px;
+}
+
+/* input[type='text'],
+input[type='password'],
+textarea {
+  width: 250px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-image: none;
+  border: 1px solid black;
+  border-radius: 4px;
+  margin-bottom: 20px;
+} */
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.Box {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  border: 2px solid black;
+  width: 550px;
+  padding: 15px;
+  background-color: bisque;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 10px 10px 5px 10px rgba(0,0,0,0.5);
+}
+
+h3 {
+  text-align: center;
+  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+font-family: Georgia, 'Times New Roman', Times, serif;
+}
