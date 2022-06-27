@@ -12,8 +12,8 @@ const initialValues = {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const onSubmit = async (values, onSubmitProps) => {
-    alert('Submitted')
     await sleep(1000);
+    alert('Submitted')
     console.log('Submitted')
     console.log('Form Data', values)
     console.log('Submit Props', onSubmitProps)
