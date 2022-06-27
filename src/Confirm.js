@@ -59,6 +59,7 @@ function NewForm() {
                                 <label>Confirm Code:</label>
                                 <TextField
                                     variant='outlined'
+                                    size='small'
                                     type='text'
                                     id='code'
                                     name='code'
