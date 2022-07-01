@@ -95,7 +95,7 @@ function NewForm() {
                             </div>
 
                             <p>Forgot password? |  <Link style={{ textDecoration: 'none' }} to='/forgot'> forgot password</Link></p>
-                            <p>Don't have an account |  <Link style={{ textDecoration: 'none' }} to='/signup'> Sign Up</Link></p>
+                            <p>Don't have an account |  <Link style={{ textDecoration: 'none' }} to='/'> Sign Up</Link></p>
                         </Form>
                     </div>
                 )
