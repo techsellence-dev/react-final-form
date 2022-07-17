@@ -9,6 +9,7 @@ import "./App.css";
 import { Amplify, Auth } from "aws-amplify";
 import awsconfig from "./aws-exports";
 import confirmSignUpAut from "./ConfirmSignUpAut";
+import { Typography } from "@mui/material";
 Amplify.configure(awsconfig);
 
 const initialValues = {
@@ -24,6 +25,7 @@ const validationSchema = Yup.object({
 
 function ConfirmSignUp() {
   const navigate = useNavigate();
+  let codeMismatch = false;
   const onSubmit = async (values, onSubmitProps) => {
     try {
       await confirmSignUpAut(values.username, values.code);
@@ -31,10 +33,20 @@ function ConfirmSignUp() {
       onSubmitProps.setSubmitting(false);
       onSubmitProps.resetForm();
     } catch (error) {
-        
-      console.log(
-        `inside the confirm signup catch block, error is  : ${error}`
-      );
+      switch (error) {
+        case "CodeMismatchException":
+          console.log("code is wrong");
+          codeMismatch = true;
+          //handle code mismatch, display to the user, ask the user if the code needs to be resend
+          break;
+        case "UserNotFoundException":
+          console.log("email is not registered");
+          navigate("/");
+          //send the user to sign up page
+          break;
+        default:
+          throw error;
+      }
     }
   };
 
@@ -83,6 +95,15 @@ function ConfirmSignUp() {
                   helperText="Enter your registered password"
                 />
                 <ErrorMessage name="code" component={TextError} />
+                {codeMismatch ? (
+                  <Typography color={"error"}>
+                    There is a code mismatch
+                  </Typography>
+                ) : (
+                  ""
+                )}
+
+                {/* the above should go away the moment user clicks the code text field and makes the form !dirty*/}
               </div>
 
               <br></br>
