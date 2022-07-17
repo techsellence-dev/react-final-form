@@ -1,16 +1,13 @@
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 
+async function confirmSignUpAut(username, code) {
+  try {
+    await Auth.confirmSignUp(username, code);
+  } catch (error) {
+    console.log("error signing up:");
+    console.log(error.code);
 
-async function confirmSignUpAut(username,code) {
-    console.log(username,code)
-    try {
-        const { user } = await Auth.confirmSignUp(
-           username,
-           code,
-        );
-        console.log(user);
-    } catch (error) {
-        console.log('error signing up:', error);
-    }
+    throw error.code;
+  }
 }
-export default confirmSignUpAut
+export default confirmSignUpAut;

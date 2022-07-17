@@ -27,11 +27,14 @@ function ConfirmSignUp() {
   const onSubmit = async (values, onSubmitProps) => {
     try {
       await confirmSignUpAut(values.username, values.code);
-      navigate("/home");
+      navigate("/signin");
       onSubmitProps.setSubmitting(false);
       onSubmitProps.resetForm();
     } catch (error) {
-      console.log(error);
+        
+      console.log(
+        `inside the confirm signup catch block, error is  : ${error}`
+      );
     }
   };
 
@@ -42,7 +45,6 @@ function ConfirmSignUp() {
       validationSchema={validationSchema}
     >
       {(formik) => {
-        console.log("Formik Props", formik);
         return (
           <div className="Box">
             <Form>
