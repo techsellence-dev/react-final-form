@@ -1,118 +1,126 @@
-import * as React from 'react';
-import { Field, Form, FormSpy } from 'react-final-form';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Typography from './modules/components/Typography';
-import AppFooter from './modules/views/AppFooter';
-import AppAppBar from './modules/views/AppAppBar';
-import AppForm from './modules/views/AppForm';
-import { email, required } from './modules/form/validation';
-import RFTextField from './modules/form/RFTextField';
-import FormButton from './modules/form/FormButton';
-import FormFeedback from './modules/form/FormFeedback';
-import withRoot from './modules/withRoot';
+import React from 'react'
+import { useState } from 'react'
+import { Formik, Form, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
+import TextError from './TextError'
+import { useAuth } from './Protected2'
+import { Link, useNavigate } from 'react-router-dom'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
+import './App.css';
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import signinAut from './SigninAut'
+Amplify.configure(awsconfig);
 
-function SignInFrontEndValidation() {
-  const [sent, setSent] = React.useState(false);
-
-  const validate = (values) => {
-    const errors = required(['email', 'password'], values);
-
-    if (!errors.email) {
-      const emailError = email(values.email);
-      if (emailError) {
-        errors.email = emailError;
-      }
-    }
-
-    return errors;
-  };
-
-  const handleSubmit = (e) => {
-    console.log(e);
-    setSent(true);
-  };
-
-  return (
-    <React.Fragment>
-      <AppAppBar />
-      <AppForm>
-        <React.Fragment>
-          <Typography variant="h3" gutterBottom marked="center" align="center">
-            Sign In
-          </Typography>
-          <Typography variant="body2" align="center">
-            {'Not a member yet? '}
-            <Link
-              href="#"
-              align="center"
-              underline="always"
-            >
-              Sign Up here
-            </Link>
-          </Typography>
-        </React.Fragment>
-        <Form
-          onSubmit={handleSubmit}
-          subscription={{ submitting: true }}
-          validate={validate}
-        >
-          {({ handleSubmit: handleSubmit2, submitting }) => (
-            <Box component="form" onSubmit={handleSubmit2} noValidate sx={{ mt: 6 }}>
-              <Field
-                autoComplete="email"
-                autoFocus
-                component={RFTextField}
-                disabled={submitting || sent}
-                fullWidth
-                label="Email"
-                margin="normal"
-                name="email"
-                required
-                size="large"
-              />
-              <Field
-                fullWidth
-                size="large"
-                component={RFTextField}
-                disabled={submitting || sent}
-                required
-                name="password"
-                autoComplete="current-password"
-                label="Password"
-                type="password"
-                margin="normal"
-              />
-              <FormSpy subscription={{ submitError: true }}>
-                {({ submitError }) =>
-                  submitError ? (
-                    <FormFeedback error sx={{ mt: 2 }}>
-                      {submitError}
-                    </FormFeedback>
-                  ) : null
-                }
-              </FormSpy>
-              <FormButton
-                sx={{ mt: 3, mb: 2 }}
-                disabled={submitting || sent}
-                size="large"
-                color="secondary"
-                fullWidth
-              >
-                {submitting || sent ? 'In progress…' : 'Sign In'}
-              </FormButton>
-            </Box>
-          )}
-        </Form>
-        <Typography align="center">
-          <Link underline="always" href="#">
-            Forgot password?
-          </Link>
-        </Typography>
-      </AppForm>
-      <AppFooter />
-    </React.Fragment>
-  );
+const initialValues = {
+    username: '',
+    password: '',
 }
 
-export default withRoot(SignInFrontEndValidation);
+//substitute to writing validations
+const validationSchema = Yup.object({
+    username: Yup.string().email('Invalid Email').required('Required!'),
+    password: Yup.string().required('Required!'),
+})
+
+function NewForm() {
+    const { setAuth } = useAuth()
+    const [showPwd, Setshown] = useState(false)
+    const [icon, setIcon] = useState(<VisibilityOffIcon />)
+    const TogglePassword = () => {
+        setIcon(<VisibilityIcon />)
+        Setshown(!showPwd)
+    }
+    const navigate = useNavigate()
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+    const handleSubmit = async (values, onSubmitProps) => {
+        await sleep(1000)
+        alert('Submitted')
+        onSubmitProps.setSubmitting(false)
+        onSubmitProps.resetForm()
+        try {
+            signinAut(values.username, values.password)
+            console.log(values.username)
+            console.log(values.password)
+
+        } catch (err) {
+            switch (err) {
+                case "UserNotFoundException":
+                    console.log("email is not registered");
+                    navigate("/");
+                    break;
+                case "UserNotConfirmedException":
+                    console.log("Confirm user");
+                    navigate("/confirmsignup");
+            }
+            navigate("/home")
+        }
+
+
+    }
+
+    return (
+
+        <Formik
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}>
+
+            {formik => {
+                console.log('Formik Props', formik)
+                return (
+                    <div className='Box'>
+                        <Form>
+                            <h1>Sign In </h1><br></br><br></br>
+                            <div>
+                                <label>Email:</label>
+                                <TextField
+                                    variant='outlined'
+                                    label='username'
+                                    size='small'
+                                    type='text'
+                                    id='username'
+                                    name='username'
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.username}
+                                    helperText='Enter your username' />
+                                <ErrorMessage name='username' component={TextError} />
+                            </div>
+                            <br></br>
+                            <div>
+                                <label>Password:</label>
+                                <TextField
+                                    variant='outlined'
+                                    label='password'
+                                    type={showPwd ? "text" : "password"}
+                                    id='password'
+                                    name='password'
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.password}
+                                    helperText='Enter your registered password' />
+                                <ErrorMessage name='password' component={TextError} />
+                            </div>
+                            <div className='toggle'> <Button color='secondary' size='small' type='button' onClick={TogglePassword} startIcon={icon}>Show Password</Button></div>
+                            <br></br>
+                            <br></br>
+                            <div>
+                                <Button color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
+                                <Button color='primary' variant='contained' type='reset' disabled={!formik.dirty}>Reset</Button>
+                            </div>
+
+                            <p>Forgot password? |  <Link style={{ textDecoration: 'none' }} to='/forgot'> forgot password</Link></p>
+                            <p>Don't have an account |  <Link style={{ textDecoration: 'none' }} to='/'> Sign Up</Link></p>
+                        </Form>
+                    </div>
+                )
+            }}
+        </Formik>
+    )
+}
+export default NewForm
