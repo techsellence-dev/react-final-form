@@ -1,0 +1,66 @@
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  background-color: rgb(102, 253, 253);
+  height: 100%;
+  
+}
+
+label {
+  font-weight: bold;
+  font-size: larger;
+  font-family: 'Yesteryear', cursive;
+  padding: 5px;
+  display: inline-block;
+  text-align: left;
+  margin-bottom: 5px;
+  width: 150px;
+}
+.Label {
+  font-weight: bold;
+  font-size: larger;
+  font-family: 'Yesteryear', cursive;
+  padding: 5px;
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 5px;
+  width: 100px;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
+
+.Box {
+  margin-top: 50px;
+  padding: 10px 20px 20px 20px;
+  margin-bottom: 50px;
+  border: 2px solid black;
+  width: 550px;
+  background-color: bisque;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 10px 10px 5px 10px rgba(0,0,0,0.5);
+}
+
+h3 {
+  text-align: center;
+  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+font-family: Georgia, 'Times New Roman', Times, serif;
+background-color: rgb(255, 221, 255) ;
+display: inline-block;
+padding: 10px;
+box-shadow:8px 8px 5px  rgba(0, 0, 0, 0.5)  ;
+}
+.err{
+  text-align: center;
+  font-size: 15px;
+  color: red;
+  font-weight: bold;
+}
