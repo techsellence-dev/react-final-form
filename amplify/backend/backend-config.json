@@ -28,7 +28,7 @@
     }
   },
   "api": {
-    "reactfinalform": {
+    "debangshuauthenticat": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],

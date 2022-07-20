@@ -1,5 +1,5 @@
 {
-  "AppSyncApiName": "reactfinalform",
+  "AppSyncApiName": "debangshuauthenticat",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false
 }
