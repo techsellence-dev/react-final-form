@@ -27,9 +27,8 @@ function SignIn() {
   const [showPwd, Setshown] = useState(false);
   const [icon, setIcon] = useState(<VisibilityOffIcon />);
   const location = useLocation();
-
   const initialValues = {
-    username: location.state.email,
+    username: location.state?.email??"",
     password: "",
   };
   const TogglePassword = () => {
