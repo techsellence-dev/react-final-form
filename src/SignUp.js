@@ -9,6 +9,8 @@ import Button from '@mui/material/Button'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
 import { useAuth } from './Protected2'
+import { createNewUser } from './gqlFunctions/userTable'
+import { createUserData } from './gqlFunctionTest/userTabletest'
 import './App.css';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -51,24 +53,25 @@ function SignUp() {
     }
     const navigate = useNavigate()
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    
     const handleSubmit = async (values, onSubmitProps) => {
-        await sleep(1000)
-        alert('Submitted')
         onSubmitProps.setSubmitting(false)
         onSubmitProps.resetForm()
         try {
-            signUpAut(values.email, values.password, values.name)
+            await signUpAut(values.email, values.password, values.name)
             console.log(values.email)
             console.log(values.password)
             console.log(values.name)
+            navigate('/confirmsignup')
         } catch (error) {
-            switch (error) {
+            switch (error?.code) {
                 case "UsernameExistsException":
-                    console.log("USerName Exists")
+                    console.log("UserName Exists")
+                    alert("An account with the given email already exists.")
                     navigate("/signin")
             }
         }
-        navigate('/confirmsignup')
+
     }
 
     return (

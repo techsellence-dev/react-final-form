@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Form, ErrorMessage } from 'formik'
+import { Formik, Form, ErrorMessage, replace } from 'formik'
 import * as Yup from 'yup'
 import TextError from './TextError'
 import TextField from '@mui/material/TextField'
@@ -16,15 +16,7 @@ const initialValues = {
     code: '',
 }
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const onSubmit = async (values, onSubmitProps) => {
-    await sleep(1000)
-    alert('Submitted')
-    onSubmitProps.setSubmitting(false)
-    onSubmitProps.resetForm()
 
-    confirmSignUpAut(values.username, values.code)
-}
 
 //substitute to writing validations
 const validationSchema = Yup.object({
@@ -32,10 +24,25 @@ const validationSchema = Yup.object({
     code: Yup.string().required('Required!'),
 })
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 function ConfirmSignUp() {
     const navigate = useNavigate()
-    const handleSubmit = () => {
-        navigate('/home')
+    const onSubmit = async (values, onSubmitProps) => {
+        onSubmitProps.setSubmitting(false)
+        onSubmitProps.resetForm()
+
+        try{
+            await confirmSignUpAut(values.username, values.code)
+            navigate('/home')
+        }catch(error){
+            switch(error?.code){
+                case "CodeMismatchException":
+                    console.log("Wrong code , please try again")
+                    alert("Wrong code , please try again")
+                    navigate('/confirmsignup')
+            }
+
+        }
     }
     return (
         <Formik
@@ -44,7 +51,6 @@ function ConfirmSignUp() {
             validationSchema={validationSchema}>
 
             {formik => {
-                console.log('Formik Props', formik)
                 return (
                     <div className='Box'>
                         <Form>
@@ -83,7 +89,7 @@ function ConfirmSignUp() {
 
                             <br></br>
                             <div>
-                                <Button onClick={handleSubmit} color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
+                                <Button color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
                                 <Button color='primary' variant='contained' type='reset' disabled={!formik.dirty}>Reset</Button>
                             </div>
                         </Form>

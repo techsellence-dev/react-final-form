@@ -10,7 +10,8 @@ async function confirmSignUpAut(username,code) {
         );
         console.log(user);
     } catch (error) {
-        console.log('error signing up:', error);
+        console.log(error);
+        throw(error)
     }
 }
 export default confirmSignUpAut

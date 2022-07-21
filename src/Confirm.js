@@ -7,6 +7,7 @@ import { TextField } from '@mui/material'
 import { Button } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOffOutlined';
 import VisibilityIcon from '@mui/icons-material/VisibilityOutlined';
+import { useNavigate } from 'react-router-dom'
 import './App.css';
 import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -19,20 +20,6 @@ const initialValues = {
     password: '',
 }
 
-
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const onSubmit = async (values, onSubmitProps) => {
-    await sleep(1000)
-    console.log('Submitted')
-    console.log('Form Data', values)
-    console.log('Submit Props', onSubmitProps)
-    onSubmitProps.setSubmitting(false)
-    onSubmitProps.resetForm()
-
-    confirmAut(values.email, values.code, values.password)
-}
-
-//substitute to writing validations
 const validationSchema = Yup.object({
     code: Yup.string().required('Required!'),
     email: Yup.string().email('Invalid Email').required('Required!'),
@@ -46,12 +33,41 @@ const validate = values => {
 }
 
 function NewForm() {
+    const [err, shwErr] = useState()
+    const navigate= useNavigate()
     const [showPwd, Setshown] = useState(false)
-    const[icon, setIcon]=useState(<VisibilityOffIcon/>)
+    const [icon, setIcon] = useState(<VisibilityOffIcon />)
     const TogglePassword = () => {
-        setIcon(<VisibilityIcon/>)
+        setIcon(<VisibilityIcon />)
         Setshown(!showPwd)
     }
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const onSubmit = async (values, onSubmitProps) => {
+        await sleep(1000)
+        onSubmitProps.setSubmitting(false)
+        onSubmitProps.resetForm()
+
+        try {
+            await confirmAut(values.email, values.code, values.password)
+            console.log(values.email);
+            console.log(values.code);
+            console.log(values.password);
+            navigate('/signin')
+        } catch (err) {
+            switch (err?.code) {
+                case "CodeMismatchException":
+                    console.log("Wrong code , please try again")
+                    shwErr("Wrong code , please try again")
+                    navigate('/confirm')
+                    break;
+                case "UserNotFoundException":
+                    console.log("Email is not registered")
+                    alert("Email is not registered");
+                    navigate("/confirm");
+            }
+        }
+    }
+
     return (
         <Formik
             initialValues={initialValues}
@@ -60,16 +76,16 @@ function NewForm() {
             validate={validate}>
 
             {formik => {
-                console.log('Formik props', formik)
                 return (
                     <div className='Box'>
                         <Form>
                             <h1>Reset Password </h1><br></br><br></br>
                             <div>
-                                <label>Username:</label>
+                                <label>Email:</label>
                                 <TextField
                                     variant='outlined'
-                                    label='enter your registered email'
+                                    label='email'
+                                    helperText='Enter your registered email'
                                     size='small'
                                     type='text'
                                     id='email'
@@ -95,6 +111,7 @@ function NewForm() {
                                     value={formik.values.code}
                                     helperText='Enter the code' />
                                 <ErrorMessage name='code' component={TextError} />
+                                <p className='err'>{err}</p>
                             </div>
                             <br></br>
                             <div>
@@ -108,7 +125,7 @@ function NewForm() {
                                     name='password'
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.password}/><br></br>
+                                    value={formik.values.password} /><br></br>
                                 <div className='toggle'> <Button color='secondary' size='small' type='button' onClick={TogglePassword} startIcon={icon}>Show Password</Button></div>
                                 <ErrorMessage name='password' component={TextError} />
 

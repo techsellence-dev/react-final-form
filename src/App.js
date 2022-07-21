@@ -27,6 +27,19 @@ const ROLES = {
 }
 
 function App() {
+    const UserData = {
+        email: "nfndnf@gmail.com",
+        name: "vdsgdg",
+        isAdmin: false,
+        phone: "8888888888",
+        superwiserEmail: "hhhh122334@gmail.com",
+        isApproved: true,
+        isEmailApproved: true,
+        isPhoneVerified: true,
+        isGooleSignIn: true,
+        isFacebookSignIn: false,
+        isGeneralAuthSignIn: false
+    };
     return (
         <Routes>
             <Route path='/' element={<SignUp />} />
@@ -37,7 +50,7 @@ function App() {
             <Route path='/confirmsignup' element={<ConfirmSignUp />} />
 
             <Route>
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<Home />}/>
             </Route>
             <Route element={<RequireAuth2 allowedRoles={[ROLES.editor]} />}>
                 <Route path="/editor" element={<Editor />} />

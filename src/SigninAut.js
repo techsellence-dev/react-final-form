@@ -5,10 +5,10 @@ import confirmsignup from './ConfirmSignUp'
 
 async function signinAut(username, password) {
     try {
-        const user = await Auth.signIn(username, password);
+        const user = await Auth.signIn({username, password})
     } catch (err) {
-        throw(err);
-        <Route path='/confirmsignup'/>
+       console.log(err)
+       throw(err)
     }
 }
 

@@ -28,6 +28,7 @@ const validationSchema = Yup.object({
 
 function NewForm() {
     const { setAuth } = useAuth()
+    const[err , shwErr]=useState()
     const [showPwd, Setshown] = useState(false)
     const [icon, setIcon] = useState(<VisibilityOffIcon />)
     const TogglePassword = () => {
@@ -36,28 +37,29 @@ function NewForm() {
     }
     const navigate = useNavigate()
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
     const handleSubmit = async (values, onSubmitProps) => {
-        await sleep(1000)
-        alert('Submitted')
         onSubmitProps.setSubmitting(false)
         onSubmitProps.resetForm()
         try {
-            signinAut(values.username, values.password)
+            await signinAut(values.username, values.password)
             console.log(values.username)
             console.log(values.password)
-
+            navigate("/home")
         } catch (err) {
-            switch (err) {
+            switch (err?.code) {
                 case "UserNotFoundException":
-                    console.log("email is not registered");
+                    console.log("Email is not registered")
+                    alert("Email is not registered");
                     navigate("/");
                     break;
                 case "UserNotConfirmedException":
-                    console.log("Confirm user");
+                    console.log("Confirm user")
+                    alert("Confirm user");
                     navigate("/confirmsignup");
+                    break;
+                case "NotAuthorizedException":
+                    shwErr("Incorrect username or password.") 
             }
-            navigate("/home")
         }
 
 
@@ -71,7 +73,6 @@ function NewForm() {
             validationSchema={validationSchema}>
 
             {formik => {
-                console.log('Formik Props', formik)
                 return (
                     <div className='Box'>
                         <Form>
@@ -107,7 +108,7 @@ function NewForm() {
                                 <ErrorMessage name='password' component={TextError} />
                             </div>
                             <div className='toggle'> <Button color='secondary' size='small' type='button' onClick={TogglePassword} startIcon={icon}>Show Password</Button></div>
-                            <br></br>
+                            <p className='err'>{err}</p>
                             <br></br>
                             <div>
                                 <Button color='primary' variant='contained' disabled={formik.isSubmitting || !(formik.dirty && formik.isValid)} type='submit'>Submit</Button>|
