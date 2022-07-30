@@ -19,7 +19,7 @@ import "./index.css";
 
 const ROLES = {
   user: "amidebu610@gmail.com",
-  editor: 1984,
+  superUser: 1984,
   admin: 5150,
 };
 
@@ -49,14 +49,14 @@ function App() {
       <Route>
         <Route path="/home" element={<Home />} />
       </Route>
-      <Route element={<RequireAuth2 allowedRoles={[ROLES.editor]} />}>
+      <Route element={<RequireAuth2 allowedRoles={[ROLES.superUser]} />}>
         <Route path="/editor" element={<Editor />} />
       </Route>
       <Route element={<RequireAuth2 allowedRoles={[ROLES.admin]} />}>
         <Route path="/admin" element={<Admin />} />
       </Route>
       <Route
-        element={<RequireAuth2 allowedRoles={[ROLES.editor, ROLES.admin]} />}
+        element={<RequireAuth2 allowedRoles={[ROLES.superUser, ROLES.admin]} />}
       >
         <Route path="/lounge" element={<Lounge />} />
       </Route>
